@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="48dp"
+    android:orientation="horizontal"
+    android:background="?android:attr/selectableItemBackground"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:gravity="start|center_vertical"
+    >
+
+    <ImageView
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:id="@+id/list_item_nav_drawer_icon"
+        android:layout_marginEnd="16dp"
+        android:src="@mipmap/ic_cake_black_24dp"
+        />
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:textColor="#000"
+        android:text="View all Categories"
+        android:layout_weight="1"
+        android:id="@+id/list_item_nav_drawer_title"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="12"
+        android:background="#444444"
+        android:textColor="#eeeeee"
+        android:id="@+id/list_item_nav_drawer_badge"
+        />
+
+</LinearLayout>

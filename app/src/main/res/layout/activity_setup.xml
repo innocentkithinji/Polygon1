@@ -1,0 +1,221 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.polygon.activity.SetupActivity">
+
+    <LinearLayout
+        android:id="@+id/layout_sms"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+
+        >
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:src="@mipmap/ic_pentagon_logo"
+            android:layout_marginTop="100dp"
+            />
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:gravity="center_horizontal"
+            android:inputType="textCapWords"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="Please provide your details"
+            android:textColor="@android:color/white"
+            android:textSize="14dp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/inputName"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/white"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/lbl_name"
+                android:layout_gravity="center_horizontal"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp" />
+
+            <EditText
+                android:id="@+id/inputEmail"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="15dp"
+                android:background="@android:color/white"
+                android:fontFamily="sans-serif-light"
+                android:hint="@string/lbl_email"
+                android:inputType="textEmailAddress"
+                android:padding="5dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18dp" />
+
+            <LinearLayout
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal">
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/cpp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:countryPreference="ZA,US,AU,GB" />
+
+                <EditText
+                    android:id="@+id/inputMobile"
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:background="@android:color/white"
+                    android:fontFamily="sans-serif-light"
+                    android:hint="738251212"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:padding="5dp"
+                    android:textColor="@color/colorPrimary"
+                    android:textCursorDrawable="@null"
+                    android:textSize="18dp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="25dp"
+                android:background="@color/colorPrimaryDark"
+                android:text="Submit"
+                android:textColor="@android:color/white"
+                android:textSize="14dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_otp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
+
+         
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="100dp"
+            android:src="@mipmap/ic_pentagon_logo" />
+
+         
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center_horizontal"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="We sent a confirmation to the following number below"
+            android:textColor="@android:color/white"
+            android:textSize="16dp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_horizontal"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="+254738251212"
+        android:textColor="#fff"
+        android:id="@+id/confirm_number"
+        android:padding="8dp"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_screen3"
+        android:src="@drawable/ic_edit_mobile"
+        android:id="@+id/edit_confirm_number"
+        android:padding="8dp"
+        />
+
+</LinearLayout>
+         
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:gravity="center_horizontal"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:text="(We will detect a confirmation message otherwise input a the confirmation cod below)"
+            android:textColor="@android:color/white"
+            android:textSize="12dp" />
+
+         
+
+        <EditText
+            android:id="@+id/inputOtp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="@android:color/white"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center_horizontal"
+            android:hint="@string/lbl_enter_otp"
+            android:inputType="number"
+            android:maxLength="6"
+            android:padding="10dp"
+            android:textCursorDrawable="@null"
+            android:textSize="18dp" />
+
+         
+
+        <Button
+            android:id="@+id/btn_verify_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:background="@color/colorPrimaryDark"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:text="@string/lbl_submit"
+            android:textColor="@android:color/white"
+            android:textSize="14dp" />     
+    </LinearLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "542748539557",
+    "firebase_url": "https://polygon-68e4d.firebaseio.com",
+    "project_id": "polygon-68e4d",
+    "storage_bucket": "polygon-68e4d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542748539557:android:77578a26d5b13de3",
+        "android_client_info": {
+          "package_name": "com.polygon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "542748539557-b4qt223pgoaviflthg5id6hlvqkdremg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.polygon",
+            "certificate_hash": "8a93e822bdcf46ee9d0d7c59cf86cd9de72e7f79"
+          }
+        },
+        {
+          "client_id": "542748539557-ijtjbe4t9did7gqrj6c692s90j36b6jk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDtqOlQ6YGlgK7GSayApfB6rlkjZPKWiAU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "542748539557-ijtjbe4t9did7gqrj6c692s90j36b6jk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

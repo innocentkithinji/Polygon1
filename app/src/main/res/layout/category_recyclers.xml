@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:layout_marginTop="10dp"
+    android:background="@null"
+    >
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:id="@+id/category_show"
+        android:orientation="vertical"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/main_act_category_more_btn"
+            android:text="More >>"
+            android:textSize="16sp"
+            android:textColor="#CCFF90"
+            android:background="@null"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Category Name"
+            android:id="@+id/main_act_category_name"
+            android:padding="5dp"
+            android:layout_margin="5dp"
+            android:layout_alignTop="@id/main_act_category_more_btn"
+            android:textSize="18dp"
+            android:textColor="#2196F3"
+            />
+
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/main_act_category_more_btn"
+            android:background="@null"
+            >
+
+        </android.support.v7.widget.RecyclerView>
+    </RelativeLayout>
+
+
+
+</android.support.v7.widget.CardView>
