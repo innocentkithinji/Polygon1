@@ -393,6 +393,7 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         progressDialog.dismiss();
                     }
                 });
+                
             } else {
                 shopID.setError("Less than 5 Characters");
             }
