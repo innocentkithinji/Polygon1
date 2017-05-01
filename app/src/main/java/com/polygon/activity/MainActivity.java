@@ -32,9 +32,7 @@ public class MainActivity extends baseActivity {
     FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mCategoryDatabase;
-
     private RecyclerView categories;
-
     private RecyclerView categories_RecyclerView;
 
     @Override
@@ -42,13 +40,27 @@ public class MainActivity extends baseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Home");
-        setNavDrawer(new MainNavDrawer(this));
+
         categories_RecyclerView = (RecyclerView) findViewById(R.id.Categories_recycler);
 
         mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (mAuth.getCurrentUser() == null) {
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                    finish();
+                }else{
+                }
+            }
+        };
+        if (mAuth.getCurrentUser() != null){
+            setNavDrawer(new MainNavDrawer(this));
+        }
 
         mDatabaseUsers = FirebaseDatabase.getInstance().getReference().child("Users");
         mDatabaseUsers.keepSynced(true);
+
 
         mCategoryDatabase = FirebaseDatabase.getInstance().getReference().child("Categories");
         mCategoryDatabase.keepSynced(true);
@@ -64,16 +76,7 @@ public class MainActivity extends baseActivity {
 
 
         checkUserExists();
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (mAuth.getCurrentUser() == null) {
-                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
-                    finish();
-                }
-            }
-        };
+
 
     }
 

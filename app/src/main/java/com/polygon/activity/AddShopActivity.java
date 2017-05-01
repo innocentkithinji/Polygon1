@@ -3,11 +3,9 @@ package com.polygon.activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.icu.util.ULocale;
 import android.net.Uri;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,18 +15,14 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.views.MainNavDrawer;
-import com.polygon.views.NavDrawer;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -36,7 +30,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddCategoryActivity extends baseActivity {
+public class AddShopActivity extends baseActivity {
     private static final int PROFILE_PIC_REQUEST = 2;
     ImageButton cat_image;
     Button submit;
@@ -56,6 +50,7 @@ public class AddCategoryActivity extends baseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_category);
         setNavDrawer(new MainNavDrawer(this));
+
 
 
         cat_image = (ImageButton) findViewById(R.id.cat_image);

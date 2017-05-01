@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:id="@+id/drawerLayout"
     android:layout_height="match_parent"
-    tools:context="com.polygon.activity.AddCategoryActivity">
+    tools:context="com.polygon.activity.AddShopActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

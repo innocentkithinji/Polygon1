@@ -44,6 +44,8 @@ dependencies {
     compile 'com.hbb20:ccp:1.7.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.facebook.android:audience-network-sdk:4.20.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-beta4'
+    compile 'com.android.support:support-v4:25.3.1'
     testCompile 'junit:junit:4.12'
 }
 apply plugin: 'com.google.gms.google-services'

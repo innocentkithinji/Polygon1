@@ -19,12 +19,9 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyD9deYRUJKMANeB03YapbnkC21EUKjS3M8" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -41,7 +38,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.LoginActivity" />
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -60,8 +56,10 @@
         </activity>
         <activity android:name=".activity.SetupActivity" />
         <activity android:name=".activity.BrowseActivities" />
-        <activity android:name=".activity.AddCategoryActivity" />
-        <activity android:name=".activity.ShopSetupActivity"></activity>
+        <activity android:name=".activity.AddShopActivity" />
+        <activity android:name=".activity.ShopSetupActivity" />
+        <activity android:name=".activity.OwnerShopActivity" />
+        <activity android:name=".activity.AddItemActivity"></activity>
     </application>
 
 </manifest>
