@@ -1,11 +1,17 @@
 package com.polygon.views;
 
+import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.polygon.R;
 import com.polygon.activity.BrowseActivities;
@@ -21,6 +27,7 @@ import com.squareup.picasso.Picasso;
  */
 
 public class MainNavDrawer extends NavDrawer {
+    private static final Object RC_SIGN_IN = 1;
     private final TextView userName;
     private final ImageView userppic;
 
@@ -28,6 +35,7 @@ public class MainNavDrawer extends NavDrawer {
     public MainNavDrawer(baseActivity activity) {
         super(activity);
         mAuth = FirebaseAuth.getInstance();
+
 
         //nav drawer Buyer Items
         addItem(new ActivityNavDrawerItem(MainActivity.class, "Home", null, R.drawable.ic_home, R.id.nav_drawer_buyer_options));

@@ -9,6 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.fragments.MessagesFragment;
@@ -24,6 +27,8 @@ public class OwnerShopActivity extends baseActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    private FirebaseAuth mAuth;
+    private DatabaseReference Dbroot = FirebaseDatabase.getInstance().getReference();
     private int[] tabIcons = {
             R.drawable.ic_shop_front,
             R.drawable.ic_chat,
@@ -31,12 +36,14 @@ public class OwnerShopActivity extends baseActivity {
             R.drawable.ic_show_chart
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        String shopId = getIntent().getExtras().getString("ShopId");
         setContentView(R.layout.activity_shop);
         setNavDrawer(new MainNavDrawer(this));
-        getSupportActionBar().setTitle("My Shop");
+        getSupportActionBar().setTitle(shopId);
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);

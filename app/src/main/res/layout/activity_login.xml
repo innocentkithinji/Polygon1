@@ -11,6 +11,8 @@
     android:background="@drawable/dulllights"
     >
 
+
+
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
@@ -19,6 +21,16 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="112dp" />
+
+    <com.google.android.gms.common.SignInButton
+        android:layout_width="190dp"
+        android:layout_height="50dp"
+        android:id="@+id/googlebutton"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="30dp"
+        android:layout_above="@id/login_button"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"/>
 
     <ImageView
         android:layout_width="170dp"
