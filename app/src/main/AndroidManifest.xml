@@ -59,7 +59,8 @@
         <activity android:name=".activity.AddShopActivity" />
         <activity android:name=".activity.ShopSetupActivity" />
         <activity android:name=".activity.OwnerShopActivity" />
-        <activity android:name=".activity.AddItemActivity"></activity>
+        <activity android:name=".activity.AddItemActivity" />
+        <activity android:name=".activity.ViewShopsActivity"></activity>
     </application>
 
 </manifest>

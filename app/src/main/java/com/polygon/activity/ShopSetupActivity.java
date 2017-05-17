@@ -39,6 +39,7 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.Places;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -77,10 +78,11 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
     private String openSec, closeSec, city;
     private int mOPenHour, mOPenMin, mCloseHour, mCloseMin;
     private DatabaseReference mDatabase;
-    private StorageReference shopImages;
+    private DatabaseReference UserShops;
     private ProgressDialog progressDialog;
     private Place place;
     private String address;
+    private String color;
 
 
     @Override
@@ -88,7 +90,7 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_setup);
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Shops");
-        shopImages = FirebaseStorage.getInstance().getReference().child("shopImages");
+        UserShops = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
         progressDialog = new ProgressDialog(this);
         city = null;
         getSupportActionBar().setTitle("Create a Shop");
@@ -342,8 +344,6 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
 
         if (item.getItemId() == R.id.done) {
             addShop();
-
-
         }
 
         return super.onOptionsItemSelected(item);
@@ -359,7 +359,8 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                 && !TextUtils.isEmpty(city) && !TextUtils.isEmpty(openSec) && !TextUtils.isEmpty(closeSec)) {
             int shopIdlen = shop_id.length();
             if (shopIdlen >= 5) {
-                StorageReference image_push = shopImages.child(mImageUri.getLastPathSegment());
+                StorageReference images = FirebaseStorage.getInstance().getReference().child("ShopImages");
+                StorageReference image_push = images.child(mImageUri.getLastPathSegment());
                 image_push.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @SuppressWarnings("VisibleForTests")
                     @Override
@@ -367,17 +368,31 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         progressDialog.setMessage("uploading your data");
                         progressDialog.show();
                         Uri downLoadUrl = taskSnapshot.getDownloadUrl();
-                        DatabaseReference allShops = mDatabase.child("allShops").child(shop_id);
+                        DatabaseReference newShop = mDatabase.child("allShops").child(shop_id);
+                        DatabaseReference user_shop = UserShops.child("Shops").child(shop_id);
                         DatabaseReference currentCityShops = mDatabase.child("Cities").child(city).child(shop_id);
-                        GeoFire allShopsGeo = new GeoFire(allShops);
-                        allShops.child("Name").setValue(shop_Name);
-                        allShops.child("Image").setValue(downLoadUrl.toString());
-                        allShops.child("Description").setValue(shop_desc);
-                        allShops.child("Place").setValue(address);
-                        allShops.child("Longitude").setValue(lon);
-                        allShops.child("Latitude").setValue(lat);
-                        allShops.child("Opening").setValue(openSec);
-                        allShops.child("Closing").setValue(closeSec);
+                        GeoFire allShopsGeo = new GeoFire(newShop);
+                        newShop.child("Name").setValue(shop_Name);
+                        newShop.child("Image").setValue(downLoadUrl.toString());
+                        newShop.child("Description").setValue(shop_desc);
+                        newShop.child("Place").setValue(address);
+                        newShop.child("Longitude").setValue(lon);
+                        newShop.child("Latitude").setValue(lat);
+                        newShop.child("Opening").setValue(openSec);
+                        newShop.child("Closing").setValue(closeSec);
+                        newShop.child("ShopId").setValue(shop_id);
+                        allShopsGeo.setLocation(shop_id, new GeoLocation(lat, lon));
+
+                        GeoFire user_shop_geop = new GeoFire(user_shop);
+                        user_shop.child("Name").setValue(shop_Name);
+                        user_shop.child("Image").setValue(downLoadUrl.toString());
+                        user_shop.child("Description").setValue(shop_desc);
+                        user_shop.child("Place").setValue(address);
+                        user_shop.child("Longitude").setValue(lon);
+                        user_shop.child("Latitude").setValue(lat);
+                        user_shop.child("Opening").setValue(openSec);
+                        user_shop.child("Closing").setValue(closeSec);
+                        user_shop.child("ShopId").setValue(shop_id);
                         allShopsGeo.setLocation(shop_id, new GeoLocation(lat, lon));
 
                         GeoFire cityGeo = new GeoFire(currentCityShops);
@@ -389,8 +404,9 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         currentCityShops.child("Latitude").setValue(lat);
                         currentCityShops.child("Opening").setValue(openSec);
                         currentCityShops.child("Closing").setValue(closeSec);
+                        currentCityShops.child("ShopId").setValue(shop_id);
                         cityGeo.setLocation(shop_id, new GeoLocation(lat, lon));
-                        progressDialog.dismiss();
+//                        progressDialog.dismiss();
                     }
                 });
                 
@@ -422,6 +438,10 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                 closeHour.setError("Choose closing Time");
             }
         }
+
+        Intent show_shop = new Intent(ShopSetupActivity.this, ViewShopsActivity.class);
+        startActivity(show_shop);
+        finish();
     }
 
     @Override

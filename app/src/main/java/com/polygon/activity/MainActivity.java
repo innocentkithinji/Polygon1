@@ -33,7 +33,6 @@ public class MainActivity extends baseActivity {
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mCategoryDatabase;
     private RecyclerView categories;
-    private RecyclerView categories_RecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,6 @@ public class MainActivity extends baseActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Home");
 
-        categories_RecyclerView = (RecyclerView) findViewById(R.id.Categories_recycler);
 
         mAuth = FirebaseAuth.getInstance();
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -68,11 +66,11 @@ public class MainActivity extends baseActivity {
         categories = (RecyclerView) findViewById(R.id.Categories_recycler);
         categories.setLayoutManager(new LinearLayoutManager(this));
 
-        LinearLayout fbad = (LinearLayout) findViewById(R.id.banner_container);
-        AdView adView = new AdView(getApplicationContext(), "400051760355146_405056099854712", AdSize.BANNER_HEIGHT_50);
-        fbad.addView(adView);
-        adView.loadAd();
-        fbad.setVisibility(View.VISIBLE);
+//        LinearLayout fbad = (LinearLayout) findViewById(R.id.banner_container);
+//        AdView adView = new AdView(getApplicationContext(), "400051760355146_405056099854712", AdSize.BANNER_HEIGHT_50);
+//        fbad.addView(adView);
+//        adView.loadAd();
+//        fbad.setVisibility(View.VISIBLE);
 
 
         checkUserExists();
@@ -127,7 +125,6 @@ public class MainActivity extends baseActivity {
 
     public static class MainCategoryViewHolder extends RecyclerView.ViewHolder {
         View mView;
-        private AdView adView;
 
         public MainCategoryViewHolder(View itemView) {
             super(itemView);
