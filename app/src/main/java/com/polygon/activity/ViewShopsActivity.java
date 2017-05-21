@@ -73,6 +73,7 @@ public class ViewShopsActivity extends baseActivity {
                 int Opening = Integer.parseInt(model.getOpening());
                 int Closing = Integer.parseInt(model.getClosing());
                 final String id = getRef(position).getKey();
+                final String city = model.getCity();
 
                 viewHolder.setTitle(model.getName());
                 viewHolder.setImage(model.getImage(), getApplicationContext());
@@ -84,6 +85,7 @@ public class ViewShopsActivity extends baseActivity {
                     public void onClick(View view) {
                        Intent shopMan = new Intent(ViewShopsActivity.this, OwnerShopActivity.class);
                        shopMan.putExtra("ShopId", id);
+                        shopMan.putExtra("City", city);
                        startActivity(shopMan);
                     }
                 });

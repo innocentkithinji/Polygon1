@@ -16,31 +16,33 @@
         tools:layout_editor_absoluteY="0dp"
         tools:layout_editor_absoluteX="8dp"
         android:src="@mipmap/add_btn"
-        android:layout_below="@id/include_toolbar"
-        android:id="@+id/imageView" />
+        android:scaleType="fitXY"
+        android:id="@+id/addItem_imageView"
+        android:layout_below="@+id/include_toolbar"
+        android:layout_alignParentStart="true" />
 
-    <TextView
-        android:id="@+id/Item_Name"
+    <EditText
+        android:id="@+id/Item_add_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
+        android:layout_below="@+id/addItem_imageView"
         android:hint="Item Name"
         android:minHeight="11dp"
         android:padding="5dp"
         android:layout_margin="5dp"
         />
 
-    <TextView
+    <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="number"
-        android:layout_below="@id/Item_Name"
+        android:layout_below="@id/Item_add_Name"
         android:hint="Item Stock (Amount you Have)"
         android:padding="5dp"
         android:id="@+id/Item_add_amount"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/Item_add_price"
         android:inputType="numberDecimal"
         android:layout_width="match_parent"
@@ -50,7 +52,7 @@
         android:hint="Price"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/Item_add_compPrice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -60,10 +62,10 @@
         android:hint="Compare Price"
         />
 
-    <Spinner
+    <AutoCompleteTextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/Item_add_compPrice"
-
+        android:id="@+id/ItemCategory"
         />
 </RelativeLayout>

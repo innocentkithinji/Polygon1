@@ -108,7 +108,7 @@
                 android:layout_alignTop="@id/locatioin_text"
                 android:layout_toEndOf="@id/locatioin_text"
                 android:background="@null"
-                android:text="Chiromo, Nairobi" />
+                android:text="Click to select Place" />
 
             <TextView
                 android:id="@+id/open_text"

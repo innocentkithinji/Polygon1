@@ -7,6 +7,7 @@ package com.polygon.listeners;
 public class viewShops {
     private String Image;
     private String Name;
+    private String City;
     private String Closing;
     private String Opening;
     private String Place;
@@ -62,5 +63,13 @@ public class viewShops {
 
     public void setPlace(String place) {
         Place = place;
+    }
+
+    public String getCity() {
+        return City;
+    }
+
+    public void setCity(String city) {
+        City = city;
     }
 }

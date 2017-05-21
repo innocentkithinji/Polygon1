@@ -4,10 +4,70 @@
     android:layout_height="match_parent"
     tools:context="com.polygon.fragments.OverViewFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/shopDetLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:minHeight="170dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/specShopImage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="130dp"
+                android:scaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/specShopName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_assignment"
+                android:minHeight="20dp"
+                android:textSize="10sp" />
+
+            <TextView
+                android:id="@+id/specShopDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_dehaze"
+                android:maxLines="7"
+                android:minHeight="20dp"
+                android:textSize="9sp" />
+
+            <TextView
+                android:id="@+id/specShopPlace"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ic_adjust"
+                android:minHeight="20dp"
+                android:textSize="10sp" />
+
+        </LinearLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/shopItemsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/shopDetLayout"
+            android:layout_marginTop="10dp"
+            android:background="@null" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:src="@android:drawable/ic_input_add"
+            android:layout_margin="20dp"
+            android:id="@+id/Item_add_fab"
+            />
+
+    </RelativeLayout>
 
 </FrameLayout>

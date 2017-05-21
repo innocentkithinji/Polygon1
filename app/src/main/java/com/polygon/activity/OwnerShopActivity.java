@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
@@ -35,12 +36,18 @@ public class OwnerShopActivity extends baseActivity {
             R.drawable.ic_orders,
             R.drawable.ic_show_chart
     };
+    private String shopId;
+
+
+
+    private String shopCity;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        String shopId = getIntent().getExtras().getString("ShopId");
+        shopId = getIntent().getExtras().getString("ShopId");
+        shopCity = getIntent().getExtras().getString("City");
         setContentView(R.layout.activity_shop);
         setNavDrawer(new MainNavDrawer(this));
         getSupportActionBar().setTitle(shopId);
@@ -66,6 +73,19 @@ public class OwnerShopActivity extends baseActivity {
         adapter.addFragment(new OrdersFragment(), "Orders");
         adapter.addFragment(new StatFragments(), "Stats");
         viewPager.setAdapter(adapter);
+    }
+    public String getShopId(){
+        if (TextUtils.isEmpty(shopId)){
+            shopId = getIntent().getExtras().getString("ShopId");
+        }
+        return  shopId;
+    }
+
+    public String getShopCity() {
+        if (TextUtils.isEmpty(shopCity)){
+            shopCity = getIntent().getExtras().getString("City");
+        }
+        return shopCity;
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

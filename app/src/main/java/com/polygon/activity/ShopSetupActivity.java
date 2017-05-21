@@ -141,7 +141,6 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         openSec = "" + ((hourOfDay * 3600) + (minute * 60));
-                        Toast.makeText(ShopSetupActivity.this, openSec, Toast.LENGTH_SHORT).show();
                         if (minute < 10) {
                             openHour.setText(hourOfDay + ":" + "0" + minute);
                         } else {
@@ -165,7 +164,6 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         closeSec = "" + ((hourOfDay * 3600) + (minute * 60));
-                        Toast.makeText(ShopSetupActivity.this, closeSec, Toast.LENGTH_SHORT).show();
                         if (minute < 10) {
                             closeHour.setText(hourOfDay + ":" + "0" + minute);
                         } else {
@@ -276,13 +274,13 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+
         if (resultCode == RESULT_OK) {
             if (requestCode == PLACE_PICKER_REQUEST) {
                 place = PlacePicker.getPlace(data, this);
                 if (place.getAddress() != null) {
                     address = place.getAddress().toString();
                     locationBtn.setText(address);
-                    Toast.makeText(this, city, Toast.LENGTH_SHORT).show();
                     lat = place.getLatLng().latitude;
                     lon = place.getLatLng().longitude;
                     Geocoder geo = new Geocoder(this, Locale.getDefault());
@@ -290,15 +288,13 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         List<Address> plAddress = geo.getFromLocation(lat, lon, 2);
                         if (plAddress.size() > 0) {
                             city = plAddress.get(0).getLocality();
-                            Toast.makeText(this, city, Toast.LENGTH_SHORT).show();
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                 } else {
-                    Toast.makeText(ShopSetupActivity.this, "pace not picked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ShopSetupActivity.this, "place not picked", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(application, lat + " " + "," + " " + lon, Toast.LENGTH_LONG).show();
             }
 
             if (requestCode == SHOP_BUNNER_REQUEST || requestCode == SHOP_IMAGE_REQUEST) {
