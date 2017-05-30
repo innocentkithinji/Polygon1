@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.google.firebase.auth.FirebaseAuth;
@@ -62,7 +63,7 @@ public class SetupActivity extends AppCompatActivity {
     private final String APPLICATION_KEY = "8a43e0ee-70ab-4563-be7f-0de125d04805";
     private Verification verification;
     private String phoneNumberInE164;
-    private  Profile profile = Profile.getCurrentProfile();
+    private Profile profile = Profile.getCurrentProfile();
 
 
     @Override
@@ -87,7 +88,7 @@ public class SetupActivity extends AppCompatActivity {
         verify_layout = (LinearLayout) findViewById(R.id.layout_otp);
         verify_layout.setVisibility(View.GONE);
         verify = (Button) findViewById(R.id.btn_verify_otp);
-        Otp =(EditText) findViewById(R.id.inputOtp);
+        Otp = (EditText) findViewById(R.id.inputOtp);
 
         cpp = (CountryCodePicker) findViewById(R.id.cpp);
         number = (EditText) findViewById(R.id.inputMobile);
@@ -102,9 +103,11 @@ public class SetupActivity extends AppCompatActivity {
         cpp.setDefaultCountryUsingPhoneCode(254);
         cpp.resetToDefaultCountry();
 
-        name.setText(profile.getName());
-        Email.setText(mAuth.getCurrentUser().getEmail());
+        if (fbisloggedin()) {
+            name.setText(profile.getName());
 
+        }
+        Email.setText(mAuth.getCurrentUser().getEmail());
         editfNumber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,17 +163,25 @@ public class SetupActivity extends AppCompatActivity {
 
                     }
                 });
-                if (!TextUtils.isEmpty(fullNames) && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(email)){
+                if (!TextUtils.isEmpty(fullNames) && !TextUtils.isEmpty(phoneNumber) && !TextUtils.isEmpty(email)) {
                     sms_layout.setVisibility(View.GONE);
                     verify_layout.setVisibility(View.VISIBLE);
                     Config config = SinchVerification.config().applicationKey(APPLICATION_KEY).context(getApplicationContext()).build();
                     VerificationListener listener = new MyVerificationListener();
-                    phoneNumberInE164 = "+"+countryCode+phoneNumber;
-                    confirmNumber.setText(phoneNumberInE164);
-                    verification = SinchVerification.createSmsVerification(config, phoneNumberInE164, listener);
-                    verification.initiate();
-                }
-                else {
+                    phoneNumberInE164 = "+" + countryCode + phoneNumber;
+                    DatabaseReference currentUser = user.child(mAuth.getCurrentUser().getUid());
+                    currentUser.child("Name").setValue(fullNames);
+                    currentUser.child("Email").setValue(email);
+                    currentUser.child("Mobile").setValue(phoneNumberInE164);
+                    if (fbisloggedin()) {
+                        currentUser.child("Image").setValue(profile.getProfilePictureUri(400, 400).toString());
+                    }
+                    startActivity(new Intent(SetupActivity.this, MainActivity.class));
+                    finish();
+//                    confirmNumber.setText(phoneNumberInE164);
+//                    verification = SinchVerification.createSmsVerification(config, phoneNumberInE164, listener);
+//                    verification.initiate();
+                } else {
                     if (TextUtils.isEmpty(fullNames))
                         name.setError("");
                     if (TextUtils.isEmpty(phoneNumber))
@@ -188,6 +199,11 @@ public class SetupActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private boolean fbisloggedin() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 
 
@@ -218,13 +234,7 @@ public class SetupActivity extends AppCompatActivity {
 
         @Override
         public void onVerified() {
-            DatabaseReference currentUser = user.child(mAuth.getCurrentUser().getUid());
-            currentUser.child("Name").setValue(fullNames);
-            currentUser.child("Email").setValue(email);
-            currentUser.child("Mobile").setValue(phoneNumberInE164);
-            currentUser.child("Image").setValue(profile.getProfilePictureUri(400,400).toString());
-            startActivity(new Intent(SetupActivity.this, MainActivity.class));
-            finish();
+
         }
 
         @Override

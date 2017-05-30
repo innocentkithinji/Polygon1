@@ -361,8 +361,6 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                     @SuppressWarnings("VisibleForTests")
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        progressDialog.setMessage("uploading your data");
-                        progressDialog.show();
                         Uri downLoadUrl = taskSnapshot.getDownloadUrl();
                         DatabaseReference newShop = mDatabase.child("allShops").child(shop_id);
                         DatabaseReference user_shop = UserShops.child("Shops").child(shop_id);

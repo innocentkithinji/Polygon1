@@ -6,51 +6,46 @@
     android:layout_height="match_parent"
     tools:context="com.polygon.activity.AddItemActivity">
 
-    <include layout="@layout/include_toolbar"
+    <include
         android:id="@+id/include_toolbar"
-        />
+        layout="@layout/include_toolbar" />
 
     <ImageView
-        android:layout_width="395dp"
-        android:layout_height="wrap_content"
-        tools:layout_editor_absoluteY="0dp"
-        tools:layout_editor_absoluteX="8dp"
-        android:src="@mipmap/add_btn"
-        android:scaleType="fitXY"
         android:id="@+id/addItem_imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="160dp"
+        android:src="@mipmap/add_btn"
+        android:layout_marginEnd="11dp"
         android:layout_below="@+id/include_toolbar"
-        android:layout_alignParentStart="true" />
+        android:layout_alignEnd="@+id/Item_add_Name" />
 
     <EditText
         android:id="@+id/Item_add_Name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addItem_imageView"
+        android:layout_margin="5dp"
         android:hint="Item Name"
         android:minHeight="11dp"
-        android:padding="5dp"
-        android:layout_margin="5dp"
-        />
+        android:padding="5dp" />
 
     <EditText
+        android:id="@+id/Item_add_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="number"
         android:layout_below="@id/Item_add_Name"
         android:hint="Item Stock (Amount you Have)"
-        android:padding="5dp"
-        android:id="@+id/Item_add_amount"
-        />
+        android:inputType="number"
+        android:padding="5dp" />
 
     <EditText
         android:id="@+id/Item_add_price"
-        android:inputType="numberDecimal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Item_add_amount"
-        android:padding="5dp"
         android:hint="Price"
-        />
+        android:inputType="numberDecimal"
+        android:padding="5dp" />
 
     <EditText
         android:id="@+id/Item_add_compPrice"
@@ -58,14 +53,23 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Item_add_price"
         android:layout_margin="5dp"
-        android:padding="5dp"
         android:hint="Compare Price"
-        />
+        android:padding="5dp" />
 
     <AutoCompleteTextView
+        android:id="@+id/ItemCategory"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Item_add_compPrice"
-        android:id="@+id/ItemCategory"
+        android:layout_below="@id/Item_add_compPrice" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Item_add_amount_Fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_margin="10dp"
+        android:padding="5dp"
+        android:src="@android:drawable/ic_menu_compass"
         />
 </RelativeLayout>

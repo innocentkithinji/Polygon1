@@ -138,7 +138,7 @@ public class OverViewFragment extends Fragment {
 
             }
         };
-        //shopItems.setAdapter(firebaseRecyclerAdapter);
+        shopItems.setAdapter(firebaseRecyclerAdapter);
     }
 
     public static class ItemsViewHolder extends RecyclerView.ViewHolder {
@@ -162,6 +162,7 @@ public class OverViewFragment extends Fragment {
                     .load(ImageUrl)
                     .into(category_image);
         }
+
 
     }
 

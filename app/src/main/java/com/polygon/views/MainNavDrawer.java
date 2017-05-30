@@ -6,9 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.facebook.AccessToken;
 import com.facebook.Profile;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -61,11 +63,19 @@ public class MainNavDrawer extends NavDrawer {
         userName = (TextView) navDrawerGroup.findViewById(R.id.nav_drawer_display_Name);
         userppic = (ImageView) navDrawerGroup.findViewById(R.id.nav_drawer_user_avatar);
         Profile profile = Profile.getCurrentProfile();
-        userName.setText(""+profile.getName());
-        String Imageurl = profile.getProfilePictureUri(400, 400).toString();
-        Picasso.with(activity)
-                .load(Imageurl)
-                .into(userppic);
+        if (fbloggedin()) {
+            userName.setText("" + profile.getName());
+            String Imageurl = profile.getProfilePictureUri(400, 400).toString();
+            Picasso.with(activity)
+                    .load(Imageurl)
+                    .into(userppic);
+        }
 
+
+    }
+
+    private boolean fbloggedin() {
+        AccessToken accessToken = AccessToken.getCurrentAccessToken();
+        return accessToken != null;
     }
 }

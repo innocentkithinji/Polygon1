@@ -12,7 +12,6 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
 
-
     <application
         android:name=".app.PolyApp"
         android:allowBackup="true"
@@ -60,7 +59,8 @@
         <activity android:name=".activity.ShopSetupActivity" />
         <activity android:name=".activity.OwnerShopActivity" />
         <activity android:name=".activity.AddItemActivity" />
-        <activity android:name=".activity.ViewShopsActivity"></activity>
+        <activity android:name=".activity.ViewShopsActivity" />
+        <activity android:name=".activity.ViewItem"></activity>
     </application>
 
 </manifest>

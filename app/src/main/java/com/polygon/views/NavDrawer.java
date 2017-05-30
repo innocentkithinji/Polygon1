@@ -206,7 +206,7 @@ public class NavDrawer {
             }
 
             navDrawer.activity.startActivity(new Intent(navDrawer.activity, TargetActivity));
-//            navDrawer.activity.finish();
+            navDrawer.activity.finish();
         }
     }
 }

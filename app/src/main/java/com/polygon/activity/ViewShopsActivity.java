@@ -38,7 +38,6 @@ public class ViewShopsActivity extends baseActivity {
         setNavDrawer(new MainNavDrawer(this));
 
 
-
         floatingActionButton = (FloatingActionButton) findViewById(R.id.view_shop_fab);
         mAuth = FirebaseAuth.getInstance();
         userShops = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid()).child("Shops");
@@ -83,10 +82,10 @@ public class ViewShopsActivity extends baseActivity {
                 viewHolder.shopView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                       Intent shopMan = new Intent(ViewShopsActivity.this, OwnerShopActivity.class);
-                       shopMan.putExtra("ShopId", id);
+                        Intent shopMan = new Intent(ViewShopsActivity.this, OwnerShopActivity.class);
+                        shopMan.putExtra("ShopId", id);
                         shopMan.putExtra("City", city);
-                       startActivity(shopMan);
+                        startActivity(shopMan);
                     }
                 });
             }

@@ -26,7 +26,7 @@
             android:minHeight="20dp"
             android:text="Item Title"
             android:textAlignment="textStart"
-            android:textSize="18sp"
+            android:textSize="14sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -46,6 +46,7 @@
                 android:layout_toEndOf="@id/itemprice"
                 android:textColor="@android:color/holo_red_light"
                 android:text="999"
+                android:textSize="12sp"
                 android:id="@+id/compareprice"
                 />
 
@@ -57,6 +58,7 @@
                 android:background="@android:color/holo_green_light"
                 android:textColor="#fff"
                 android:text="-32%"
+                android:textSize="12sp"
                 android:id="@+id/item_per_discount"
                 />
 
@@ -73,6 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Rem: 23450"
+            android:textSize="13sp"
             android:id="@+id/remainingStock"
             />
     </LinearLayout>
