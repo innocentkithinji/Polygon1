@@ -375,6 +375,7 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         newShop.child("Opening").setValue(openSec);
                         newShop.child("Closing").setValue(closeSec);
                         newShop.child("ShopId").setValue(shop_id);
+                        newShop.child("City").setValue(city);
                         allShopsGeo.setLocation(shop_id, new GeoLocation(lat, lon));
 
                         GeoFire user_shop_geop = new GeoFire(user_shop);
@@ -387,6 +388,7 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         user_shop.child("Opening").setValue(openSec);
                         user_shop.child("Closing").setValue(closeSec);
                         user_shop.child("ShopId").setValue(shop_id);
+                        user_shop.child("City").setValue(city);
                         allShopsGeo.setLocation(shop_id, new GeoLocation(lat, lon));
 
                         GeoFire cityGeo = new GeoFire(currentCityShops);
@@ -399,6 +401,7 @@ public class ShopSetupActivity extends baseActivity implements GoogleApiClient.O
                         currentCityShops.child("Opening").setValue(openSec);
                         currentCityShops.child("Closing").setValue(closeSec);
                         currentCityShops.child("ShopId").setValue(shop_id);
+                        currentCityShops.child("City").setValue(city);
                         cityGeo.setLocation(shop_id, new GeoLocation(lat, lon));
 //                        progressDialog.dismiss();
                     }

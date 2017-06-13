@@ -7,12 +7,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.facebook.ads.AdSize;
-import com.facebook.ads.AdView;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -23,9 +20,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.listeners.Categories;
+import com.polygon.listeners.ItemView;
 import com.polygon.views.MainNavDrawer;
+import com.squareup.picasso.Picasso;
 
-import static com.facebook.ads.AdSize.BANNER_HEIGHT_50;
+import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class MainActivity extends baseActivity {
     FirebaseAuth mAuth;
@@ -39,6 +38,7 @@ public class MainActivity extends baseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().setTitle("Home");
+
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -78,6 +78,7 @@ public class MainActivity extends baseActivity {
 
     }
 
+
     private void checkUserExists() {
         if (mAuth.getCurrentUser() != null) {
 
@@ -116,6 +117,8 @@ public class MainActivity extends baseActivity {
             @Override
             protected void populateViewHolder(MainCategoryViewHolder viewHolder, Categories model, int position) {
                 viewHolder.setTitle(model.getTitle());
+                viewHolder.setItems(getApplication().getApplicationContext());
+
             }
         };
 
@@ -125,12 +128,17 @@ public class MainActivity extends baseActivity {
 
     public static class MainCategoryViewHolder extends RecyclerView.ViewHolder {
         View mView;
+        private DatabaseReference mCategoryItemsDatabase = FirebaseDatabase.getInstance().getReference().child("Categories").child("Items");
 
+        RecyclerView category_items;
         public MainCategoryViewHolder(View itemView) {
             super(itemView);
             mView = itemView;
-
+            category_items = (RecyclerView) mView.findViewById(R.id.main_category_list_items);
         }
+
+
+
 
 
         public void setTitle(String title) {
@@ -138,6 +146,74 @@ public class MainActivity extends baseActivity {
             Title.setText(title);
         }
 
+        public void setItems(final Context context) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
+            category_items.setLayoutManager(layoutManager);
+            FirebaseRecyclerAdapter<ItemView,ItemsViewHolder > categoryItemAdapter = new FirebaseRecyclerAdapter<ItemView, ItemsViewHolder>(
+                    ItemView.class,
+                    R.layout.itemtemplete,
+                    ItemsViewHolder.class,
+                    mCategoryItemsDatabase
+                    ) {
+                @Override
+                protected void populateViewHolder(ItemsViewHolder viewHolder, ItemView model, int position) {
+                    viewHolder.setImage(model.getImage(), context);
+                    viewHolder.setItemName(model.getName());
+                    viewHolder.setPlace(model.getPlace());
+                    viewHolder.setItemPrice(model.getPrice());
+                    viewHolder.setComparePrice(model.getComparePrice());
+                    viewHolder.setSavingpercent(model.getPrice(),model.getComparePrice());
+                }
+            };
+
+            category_items.setAdapter(categoryItemAdapter);
+        }
+
+
+    }
+
+    public static class ItemsViewHolder extends RecyclerView.ViewHolder {
+
+        View mView;
+
+        public ItemsViewHolder(View itemView) {
+            super(itemView);
+
+            mView = itemView;
+        }
+
+        public void setItemName(String categ_name) {
+            TextView category_Name = (TextView) mView.findViewById(R.id.Item_name);
+            category_Name.setText(categ_name);
+        }
+
+        public void setImage(String ImageUrl, Context context) {
+            ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
+            Picasso.with(context)
+                    .load(ImageUrl)
+                    .into(Item_image);
+        }
+
+        public void setItemPrice(String Price) {
+            TextView ItemPrice = (TextView) mView.findViewById(R.id.itemprice);
+            ItemPrice.setText(Price);
+        }
+
+        public void setComparePrice(String ComPrice) {
+            TextView compprice = (TextView) mView.findViewById(R.id.compareprice);
+            compprice.setText(ComPrice);
+        }
+
+        public void setPlace(String Place) {
+            TextView plac = (TextView) mView.findViewById(R.id.item_place);
+            plac.setVisibility(View.GONE);
+        }
+
+        public void setSavingpercent(String Price, String comPrice) {
+            TextView savperc = (TextView) mView.findViewById(R.id.item_per_discount);
+            savperc.setVisibility(View.GONE);
+
+        }
     }
 
     @Override

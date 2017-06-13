@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,9 +66,11 @@ public class OverViewFragment extends Fragment {
         shopCity = ((OwnerShopActivity) getActivity()).getShopCity();
         shop = FirebaseDatabase.getInstance().getReference().child("Shops");
         allshops = shop.child("allShops");
-        if (shopCity != null) {
-            cityshop = shop.child(shopCity);
+        if (shopCity == null) {
+            shopCity = ((OwnerShopActivity) getActivity()).getShopCity();
         }
+            cityshop = shop.child(shopCity);
+
         userShop = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
     }
@@ -84,8 +87,8 @@ public class OverViewFragment extends Fragment {
         shopPlace = (TextView) view.findViewById(R.id.specShopPlace);
         shopItems = (RecyclerView) view.findViewById(R.id.shopItemsRecycler);
         addItemFab = (FloatingActionButton) view.findViewById(R.id.Item_add_fab);
-
         shopDetails = userShop.child("Shops").child(shopId);
+        Toast.makeText(getApplicationContext(), ""+shopId, Toast.LENGTH_SHORT).show();
         shopItemsales = shopDetails.child("Items");
 
 
@@ -116,6 +119,9 @@ public class OverViewFragment extends Fragment {
             public void onClick(View view) {
                 Intent addItem = new Intent(getApplicationContext(), AddItemActivity.class);
                 addItem.putExtra("ShopId", shopId);
+                if (shopCity == null){
+                    shopCity = ((OwnerShopActivity) getActivity()).getShopCity();
+                }
                 addItem.putExtra("ShopCity", shopCity);
                 startActivity(addItem);
             }
@@ -135,7 +141,12 @@ public class OverViewFragment extends Fragment {
         ) {
             @Override
             protected void populateViewHolder(ItemsViewHolder viewHolder, ItemView model, int position) {
-
+                    viewHolder.setImage(model.getImage(), getApplicationContext());
+                    viewHolder.setItemName(model.getName());
+                    viewHolder.setPlace(model.getPlace());
+                    viewHolder.setItemPrice(model.getPrice());
+                    viewHolder.setComparePrice(model.getComparePrice());
+                    viewHolder.setSavingpercent(model.getPrice(),model.getComparePrice());
             }
         };
         shopItems.setAdapter(firebaseRecyclerAdapter);
@@ -151,16 +162,40 @@ public class OverViewFragment extends Fragment {
             mView = itemView;
         }
 
-        public void setCategoryName(String categ_name) {
-            TextView category_Name = (TextView) mView.findViewById(R.id.choice_name);
+        public void setItemName(String categ_name) {
+            TextView category_Name = (TextView) mView.findViewById(R.id.Item_name);
             category_Name.setText(categ_name);
         }
 
-        public void setCategoryImage(String ImageUrl, Context context) {
-            ImageView category_image = (ImageView) mView.findViewById(R.id.choice_image);
+        public void setImage(String ImageUrl, Context context) {
+            ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
             Picasso.with(context)
                     .load(ImageUrl)
-                    .into(category_image);
+                    .into(Item_image);
+        }
+
+        public void setItemPrice(String Price){
+            TextView ItemPrice = (TextView) mView.findViewById(R.id.itemprice);
+            ItemPrice.setText(Price);
+        }
+
+        public void setComparePrice(String ComPrice){
+            TextView compprice = (TextView) mView.findViewById(R.id.compareprice);
+            compprice.setText(ComPrice);
+        }
+
+        public void setPlace (String Place){
+            TextView plac = (TextView) mView.findViewById(R.id.item_place);
+            plac.setText(Place);
+        }
+
+        public void setSavingpercent(String Price, String comPrice){
+            int price = Integer.valueOf(Price);
+            int comPric = Integer.valueOf(comPrice);
+            TextView savperc = (TextView) mView.findViewById(R.id.item_per_discount);
+            int savings = (((comPric-price)/comPric)*100);
+            savperc.setText(""+savings);
+
         }
 
 

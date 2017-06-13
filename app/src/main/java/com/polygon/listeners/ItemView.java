@@ -11,6 +11,10 @@ public class ItemView {
     private String Name;
     private String Price;
 
+
+
+    private String Place;
+
     public ItemView() {
     }
 
@@ -52,6 +56,14 @@ public class ItemView {
 
     public void setName(String name) {
         Name = name;
+    }
+
+    public String getPlace() {
+        return Place;
+    }
+
+    public void setPlace(String place) {
+        Place = place;
     }
 
     public String getPrice() {

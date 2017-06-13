@@ -24,10 +24,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/addItem_imageView"
-        android:layout_margin="5dp"
         android:hint="Item Name"
         android:minHeight="11dp"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:layout_marginTop="13dp"
+        />
 
     <EditText
         android:id="@+id/Item_add_amount"
@@ -36,7 +37,9 @@
         android:layout_below="@id/Item_add_Name"
         android:hint="Item Stock (Amount you Have)"
         android:inputType="number"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:layout_marginTop="8dp"
+        />
 
     <EditText
         android:id="@+id/Item_add_price"
@@ -45,7 +48,9 @@
         android:layout_below="@+id/Item_add_amount"
         android:hint="Price"
         android:inputType="numberDecimal"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:layout_marginTop="8dp"
+        />
 
     <EditText
         android:id="@+id/Item_add_compPrice"
@@ -53,14 +58,19 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/Item_add_price"
         android:layout_margin="5dp"
+        android:inputType="numberDecimal"
         android:hint="Compare Price"
-        android:padding="5dp" />
+        android:padding="5dp"
+        android:layout_marginTop="8dp"
+        />
 
     <AutoCompleteTextView
         android:id="@+id/ItemCategory"
         android:layout_width="match_parent"
+        android:hint="Category"
         android:layout_height="wrap_content"
-        android:layout_below="@id/Item_add_compPrice" />
+        android:layout_below="@id/Item_add_compPrice"
+        />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/Item_add_amount_Fab"

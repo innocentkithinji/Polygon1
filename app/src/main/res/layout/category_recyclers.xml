@@ -43,6 +43,7 @@
             android:layout_height="match_parent"
             android:layout_below="@id/main_act_category_more_btn"
             android:background="@null"
+            android:id="@+id/main_category_list_items"
             >
 
         </android.support.v7.widget.RecyclerView>
