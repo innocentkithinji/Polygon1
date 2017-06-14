@@ -30,6 +30,8 @@ import com.polygon.activity.BrowseActivities;
 import com.polygon.activity.OwnerShopActivity;
 import com.polygon.listeners.Categories;
 import com.polygon.listeners.ItemView;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -110,7 +112,6 @@ public class OverViewFragment extends Fragment {
         });
 
         GridLayoutManager layoutManager = new GridLayoutManager(getActivity().getApplicationContext(), 2);
-        layoutManager.setReverseLayout(true);
         shopItems.setLayoutManager(layoutManager);
 
 
@@ -146,7 +147,6 @@ public class OverViewFragment extends Fragment {
                     viewHolder.setPlace(model.getPlace());
                     viewHolder.setItemPrice(model.getPrice());
                     viewHolder.setComparePrice(model.getComparePrice());
-                    viewHolder.setSavingpercent(model.getPrice(),model.getComparePrice());
             }
         };
         shopItems.setAdapter(firebaseRecyclerAdapter);
@@ -167,11 +167,24 @@ public class OverViewFragment extends Fragment {
             category_Name.setText(categ_name);
         }
 
-        public void setImage(String ImageUrl, Context context) {
-            ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
+        public void setImage(final String ImageUrl, final Context context) {
+            final ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
             Picasso.with(context)
                     .load(ImageUrl)
-                    .into(Item_image);
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(Item_image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(context)
+                                    .load(ImageUrl)
+                                    .into(Item_image);
+                        }
+                    });
         }
 
         public void setItemPrice(String Price){
@@ -189,14 +202,6 @@ public class OverViewFragment extends Fragment {
             plac.setText(Place);
         }
 
-        public void setSavingpercent(String Price, String comPrice){
-            int price = Integer.valueOf(Price);
-            int comPric = Integer.valueOf(comPrice);
-            TextView savperc = (TextView) mView.findViewById(R.id.item_per_discount);
-            int savings = (((comPric-price)/comPric)*100);
-            savperc.setText(""+savings);
-
-        }
 
 
     }

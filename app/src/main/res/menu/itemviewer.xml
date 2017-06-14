@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:icon="@drawable/ic_add"
+        android:title="Add to shopping cart"
+        android:id="@+id/itemView_menu_add"
+        app:showAsAction="always"/>
+
+    <item
+        android:icon="@drawable/ic_phone"
+        android:title="Add to shopping cart"
+        android:id="@+id/itemView_menu_contact"
+        app:showAsAction="always"
+
+        />
+</menu>

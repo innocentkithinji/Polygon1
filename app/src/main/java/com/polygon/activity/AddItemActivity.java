@@ -12,9 +12,6 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -63,13 +60,17 @@ public class AddItemActivity extends AppCompatActivity {
     private Uri outputFile, mImageUri = null;
     private EditText ItemAmount;
     private DatabaseReference InOwner;
+    private DatabaseReference allItems;
     private DatabaseReference item;
+    private String ItemKey = null;
+    private String UserId;
+    private String ownerContact;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
-
+        UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         tempOutPutFile = new File(getExternalCacheDir(), "temp-out.jpg");
         shop_Id = getIntent().getExtras().getString("ShopId");
         shop_City = getIntent().getExtras().getString("ShopCity");
@@ -85,13 +86,25 @@ public class AddItemActivity extends AppCompatActivity {
         Categories = FirebaseDatabase.getInstance().getReference().child("Categories");
         Inallshops = FirebaseDatabase.getInstance().getReference().child("Shops").child("allShops").child("" + shop_Id).child("Items");
         InshopCity = FirebaseDatabase.getInstance().getReference().child("Shops").child("Cities").child("" + shop_City).child("" + shop_Id).child("Items");
-        InOwner = FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+        InOwner = FirebaseDatabase.getInstance().getReference().child("Users").child(UserId)
                 .child("Shops").child(shop_Id).child("Items");
-
+        allItems  = FirebaseDatabase.getInstance().getReference().child("allItems");
         doneFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                addItem();
+            }
+        });
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users").child(UserId).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                ownerContact = dataSnapshot.child("Mobile").getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
         Categories.addValueEventListener(new ValueEventListener() {
@@ -233,17 +246,39 @@ public class AddItemActivity extends AppCompatActivity {
                     String downLoadUrl = taskSnapshot.getDownloadUrl().toString();
                     Toast.makeText(AddItemActivity.this, "Added to Catalogue", Toast.LENGTH_SHORT).show();
                     Log.e("Next Load Polygon", "From Here");
+                    addinDb(allItems, name, price, amount, finalCompPrice, shop_City);
+                    item.child("Image").setValue(downLoadUrl);
+                    item.child("OwnerID").setValue(UserId);
+                    item.child("ShopId").setValue(shop_Id);
+                    item.child("Category").setValue(CategoryId);
+                    item.child("Owner Contact").setValue(ownerContact);
                     addinDb(InOwner, name, price, amount, finalCompPrice, shop_City);
                     item.child("Image").setValue(downLoadUrl);
+                    item.child("OwnerID").setValue(UserId);
+                    item.child("ShopId").setValue(shop_Id);
+                    item.child("Category").setValue(CategoryId);
+                    item.child("Owner Contact").setValue(ownerContact);
                     Toast.makeText(AddItemActivity.this, "Owner", Toast.LENGTH_SHORT);
                     addinDb(Inallshops, name, price, amount, finalCompPrice, shop_City);
                     item.child("Image").setValue(downLoadUrl);
+                    item.child("OwnerID").setValue(UserId);
+                    item.child("ShopId").setValue(shop_Id);
+                    item.child("Category").setValue(CategoryId);
+                    item.child("Owner Contact").setValue(ownerContact);
                     Toast.makeText(AddItemActivity.this, "AllShops", Toast.LENGTH_SHORT);
                     addinDb(InshopCity, name, price, amount, finalCompPrice, shop_City);
                     item.child("Image").setValue(downLoadUrl);
+                    item.child("OwnerID").setValue(UserId);
+                    item.child("ShopId").setValue(shop_Id);
+                    item.child("Category").setValue(CategoryId);
+                    item.child("Owner Contact").setValue(ownerContact);
                     Toast.makeText(AddItemActivity.this, "City", Toast.LENGTH_SHORT);
                     addinDb(categoryItem, name, price, amount, finalCompPrice, shop_City);
                     item.child("Image").setValue(downLoadUrl);
+                    item.child("OwnerID").setValue(UserId);
+                    item.child("ShopId").setValue(shop_Id);
+                    item.child("Category").setValue(CategoryId);
+                    item.child("Owner Contact").setValue(ownerContact);
                     Toast.makeText(AddItemActivity.this, "Category", Toast.LENGTH_SHORT);
                     finish();
                 }
@@ -259,7 +294,13 @@ public class AddItemActivity extends AppCompatActivity {
     }
 
     private void addinDb(DatabaseReference dbref, String Name, String Price, String Amount, String Compare, String Place) {
-        item = dbref.push();
+        if (ItemKey == null){
+            item = dbref.push();
+            ItemKey = item.getKey();
+
+        }else{
+            item = dbref.child(ItemKey);
+        }
         item.child("Name").setValue(Name);
         item.child("Price").setValue(Price);
         item.child("ComparePrice").setValue(Compare);

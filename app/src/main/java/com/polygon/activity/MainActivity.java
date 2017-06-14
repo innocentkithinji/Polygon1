@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -16,12 +17,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.listeners.Categories;
 import com.polygon.listeners.ItemView;
 import com.polygon.views.MainNavDrawer;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
@@ -32,6 +36,8 @@ public class MainActivity extends baseActivity {
     private DatabaseReference mDatabaseUsers;
     private DatabaseReference mCategoryDatabase;
     private RecyclerView categories;
+    private Query withItems;
+    private String categoryId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +68,9 @@ public class MainActivity extends baseActivity {
 
         mCategoryDatabase = FirebaseDatabase.getInstance().getReference().child("Categories");
         mCategoryDatabase.keepSynced(true);
+
+
+
 
         categories = (RecyclerView) findViewById(R.id.Categories_recycler);
         categories.setLayoutManager(new LinearLayoutManager(this));
@@ -115,10 +124,20 @@ public class MainActivity extends baseActivity {
 
         ) {
             @Override
-            protected void populateViewHolder(MainCategoryViewHolder viewHolder, Categories model, int position) {
+            protected void populateViewHolder(final MainCategoryViewHolder viewHolder, final Categories model, final int position) {
+                categoryId = getRef(position).getKey();
                 viewHolder.setTitle(model.getTitle());
-                viewHolder.setItems(getApplication().getApplicationContext());
-
+                viewHolder.setItems(getApplication().getApplicationContext(), categoryId);
+                viewHolder.initialize();
+                viewHolder.moreBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        categoryId = getRef(position).getKey();
+                        Intent intent = new Intent(MainActivity.this, ViewCategoryActivity.class);
+                        intent.putExtra("categoryKey", categoryId);
+                        startActivity(intent);
+                    }
+                });
             }
         };
 
@@ -128,7 +147,8 @@ public class MainActivity extends baseActivity {
 
     public static class MainCategoryViewHolder extends RecyclerView.ViewHolder {
         View mView;
-        private DatabaseReference mCategoryItemsDatabase = FirebaseDatabase.getInstance().getReference().child("Categories").child("Items");
+        private DatabaseReference mCategoryItemsDatabase = FirebaseDatabase.getInstance().getReference().child("Categories");
+        private Button moreBtn;
 
         RecyclerView category_items;
         public MainCategoryViewHolder(View itemView) {
@@ -138,7 +158,9 @@ public class MainActivity extends baseActivity {
         }
 
 
-
+        public void initialize(){
+            moreBtn = (Button) mView.findViewById(R.id.main_act_category_more_btn);
+        }
 
 
         public void setTitle(String title) {
@@ -146,14 +168,14 @@ public class MainActivity extends baseActivity {
             Title.setText(title);
         }
 
-        public void setItems(final Context context) {
+        public void setItems(final Context context, String category) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false);
             category_items.setLayoutManager(layoutManager);
             FirebaseRecyclerAdapter<ItemView,ItemsViewHolder > categoryItemAdapter = new FirebaseRecyclerAdapter<ItemView, ItemsViewHolder>(
                     ItemView.class,
-                    R.layout.itemtemplete,
+                    R.layout.main_categories_template,
                     ItemsViewHolder.class,
-                    mCategoryItemsDatabase
+                    mCategoryItemsDatabase.child(category).child("Items")
                     ) {
                 @Override
                 protected void populateViewHolder(ItemsViewHolder viewHolder, ItemView model, int position) {
@@ -187,11 +209,24 @@ public class MainActivity extends baseActivity {
             category_Name.setText(categ_name);
         }
 
-        public void setImage(String ImageUrl, Context context) {
-            ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
+        public void setImage(final String ImageUrl, final Context context) {
+            final ImageView Item_image = (ImageView) mView.findViewById(R.id.Item_image);
             Picasso.with(context)
                     .load(ImageUrl)
-                    .into(Item_image);
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(Item_image, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(context)
+                                    .load(ImageUrl)
+                                    .into(Item_image);
+                        }
+                    });
         }
 
         public void setItemPrice(String Price) {

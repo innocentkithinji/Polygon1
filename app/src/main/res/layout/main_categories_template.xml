@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="160dp"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
@@ -49,6 +49,16 @@
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/item_per_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_toEndOf="@id/compareprice"
+                android:background="@android:color/holo_green_light"
+                android:text="-32%"
+                android:textColor="#fff"
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/item_place"

@@ -16,6 +16,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.polygon.R;
+import com.polygon.activity.AddCategory;
 import com.polygon.activity.BrowseActivities;
 import com.polygon.activity.MainActivity;
 import com.polygon.activity.OwnerShopActivity;
@@ -42,6 +43,7 @@ public class MainNavDrawer extends NavDrawer {
         //nav drawer Buyer Items
         addItem(new ActivityNavDrawerItem(MainActivity.class, "Home", null, R.drawable.ic_home, R.id.nav_drawer_buyer_options));
         addItem(new ActivityNavDrawerItem(BrowseActivities.class, "View by Category", null, R.drawable.ic_dehaze, R.id.nav_drawer_buyer_options));
+        addItem(new ActivityNavDrawerItem(AddCategory.class, "AddCategory", null, R.drawable.ic_dehaze, R.id.nav_drawer_buyer_options));
 
 
         //nav drawer Seller Options:

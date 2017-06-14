@@ -21,6 +21,8 @@ import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.listeners.viewShops;
 import com.polygon.views.MainNavDrawer;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.Calendar;
@@ -108,11 +110,24 @@ public class ViewShopsActivity extends baseActivity {
             shopTitle.setText(Title);
         }
 
-        public void setImage(String Image, Context context) {
-            ImageView shopImage = (ImageView) shopView.findViewById(R.id.view_shop_image);
+        public void setImage(final String Image, final Context context) {
+            final ImageView shopImage = (ImageView) shopView.findViewById(R.id.view_shop_image);
             Picasso.with(context)
                     .load(Image)
-                    .into(shopImage);
+                    .networkPolicy(NetworkPolicy.OFFLINE)
+                    .into(shopImage, new Callback() {
+                        @Override
+                        public void onSuccess() {
+
+                        }
+
+                        @Override
+                        public void onError() {
+                            Picasso.with(context)
+                                    .load(Image)
+                                    .into(shopImage);
+                        }
+                    });
         }
 
         public void setPlace(String Area) {

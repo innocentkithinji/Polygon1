@@ -60,6 +60,8 @@
         <activity android:name=".activity.OwnerShopActivity" />
         <activity android:name=".activity.AddItemActivity" />
         <activity android:name=".activity.ViewShopsActivity" />
+        <activity android:name=".activity.AddCategory" />
+        <activity android:name=".activity.ViewCategoryActivity" />
         <activity android:name=".activity.ViewItem"></activity>
     </application>
 

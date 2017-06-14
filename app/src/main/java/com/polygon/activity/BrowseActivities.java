@@ -1,6 +1,7 @@
 package com.polygon.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,6 +16,8 @@ import com.google.firebase.database.Query;
 import com.polygon.R;
 import com.polygon.app.baseActivity;
 import com.polygon.views.MainNavDrawer;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 public class BrowseActivities extends baseActivity {
@@ -48,8 +51,17 @@ public class BrowseActivities extends baseActivity {
         ) {
             @Override
             protected void populateViewHolder(CategoryViewHolder viewHolder, com.polygon.listeners.Categories model, int position) {
+                    final String categoryId = getRef(position).getKey();
                     viewHolder.setCategoryImage(model.getImage(), getApplicationContext());
                     viewHolder.setCategoryName(model.getTitle());
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Intent intent = new Intent(BrowseActivities.this, ViewCategoryActivity.class);
+                            intent.putExtra("categoryKey", categoryId);
+                            startActivity(intent);
+                        }
+                    });
             }
         };
         recyclerView.setAdapter(firebrecyclerAdapter);
@@ -68,11 +80,22 @@ public class BrowseActivities extends baseActivity {
            TextView category_Name = (TextView) mView.findViewById(R.id.choice_name);
            category_Name.setText(categ_name);
        }
-       public void setCategoryImage(String ImageUrl, Context context){
-           ImageView category_image = (ImageView) mView.findViewById(R.id.choice_image);
+       public void setCategoryImage(final String ImageUrl, final Context context){
+           final ImageView category_image = (ImageView) mView.findViewById(R.id.choice_image);
            Picasso.with(context)
                    .load(ImageUrl)
-                   .into(category_image);
+                   .networkPolicy(NetworkPolicy.OFFLINE)
+                   .into(category_image, new Callback() {
+                       @Override
+                       public void onSuccess() {
+
+                       }
+
+                       @Override
+                       public void onError() {
+                        Picasso.with(context).load(ImageUrl).into(category_image);
+                       }
+                   });
        }
 
    }
