@@ -24,7 +24,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
-public class ViewItem extends baseActivity {
+public class ViewItemOwnerActivity extends baseActivity {
 
 
 
@@ -63,26 +63,25 @@ public class ViewItem extends baseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_item);
+        setContentView(R.layout.activity_view_item_owner);
 
-        itemImage = (ImageView) findViewById(R.id.Item_display_image);
-        itemName = (EditText) findViewById(R.id.Item_display_Name);
+        itemImage = (ImageView) findViewById(R.id.Item_Owner_display_image);
+        itemName = (EditText) findViewById(R.id.Item_Owner_display_Name);
         name = itemName.getText().toString();
-        itemPrice = (EditText) findViewById(R.id.Item_display_price);
+        itemPrice = (EditText) findViewById(R.id.Item_Owner_display_price);
         Price = itemPrice.getText().toString();
-        itemCompare = (EditText) findViewById(R.id.Item_display_compare_price);
+        itemCompare = (EditText) findViewById(R.id.Item_Owner_display_compare_price);
         compPrice = itemCompare.getText().toString();
-        itemLocality = (EditText) findViewById(R.id.Item_display_place);
+        itemLocality = (EditText) findViewById(R.id.Item_Owner_display_place);
         Locality = itemLocality.getText().toString();
         uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        itemDescription = (EditText) findViewById(R.id.Item_display_description);
+        itemDescription = (EditText) findViewById(R.id.Item_Owner_display_description);
         Description = itemDescription.getText().toString();
-        itemAmount = (EditText) findViewById(R.id.Item_display_amount);
+        itemAmount = (EditText) findViewById(R.id.Item_Owner_display_amount);
         dispamount = itemAmount.getText().toString();
-        categoryACTV = (AutoCompleteTextView) findViewById(R.id.Item_display_category);
-        shopId = (TextView) findViewById(R.id.Item_display_shopId);
-        shoppingamount = (EditText) findViewById(R.id.Item_view_amount);
-        addToShoppingcart = (Button) findViewById(R.id.add_to_shopping_cart);
+        categoryACTV = (AutoCompleteTextView) findViewById(R.id.Item_Owner_display_category);
+        shopId = (TextView) findViewById(R.id.Item_Owner_display_shopId);
+
 
 
         itemKey = getIntent().getExtras().getString("ItemKey");
@@ -104,7 +103,7 @@ public class ViewItem extends baseActivity {
                 itemCategory = dataSnapshot.child("Category").getValue().toString();
                 place = dataSnapshot.child("Place").getValue().toString();
                 inallshops = root.child("Shops").child("allShops").child(itemShopId)
-                            .child("Items").child(itemKey);
+                        .child("Items").child(itemKey);
                 inOwner = root.child("users").child(ownerId)
                         .child(itemShopId)
                         .child("Items").child(itemKey);
@@ -142,13 +141,6 @@ public class ViewItem extends baseActivity {
 
             }
         });
-        itemName.setEnabled(false);
-        itemImage.setClickable(false);
-        categoryACTV.setVisibility(View.GONE);
-        itemPrice.setEnabled(false);
-        itemCompare.setEnabled(false);
-        itemLocality.setEnabled(false);
-        itemDescription.setEnabled(false);
     }
 
     private void changestate(int editingState) {
@@ -158,7 +150,7 @@ public class ViewItem extends baseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
-            getMenuInflater().inflate(R.menu.itemviewer, menu);
+        getMenuInflater().inflate(R.menu.itemowner_editting, menu);
 
 
         return true;

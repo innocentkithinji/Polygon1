@@ -19,21 +19,20 @@
             <include layout="@layout/include_toolbar" />
 
             <ImageView
-                android:id="@+id/Item_display_image"
+                android:id="@+id/Item_Owner_display_image"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:maxHeight="150dp"
-                android:minHeight="150dp"
+                android:layout_height="180dp"
+                android:minHeight="100dp"
                 android:scaleType="centerCrop" />
 
             <EditText
-                android:id="@+id/Item_display_Name"
+                android:id="@+id/Item_Owner_display_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Item Name" />
 
             <TextView
-                android:id="@+id/Item_display_shopId"
+                android:id="@+id/Item_Owner_display_shopId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Shop"
@@ -45,34 +44,34 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/Item_display_price"
+                    android:id="@+id/Item_Owner_display_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="numberDecimal"
                     android:text="1000" />
 
                 <EditText
-                    android:id="@+id/Item_display_compare_price"
+                    android:id="@+id/Item_Owner_display_compare_price"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/Item_display_price"
+                    android:layout_toEndOf="@id/Item_Owner_display_price"
                     android:inputType="numberDecimal"
                     android:text="2000"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <EditText
-                    android:id="@+id/Item_display_amount"
+                    android:id="@+id/Item_Owner_display_amount"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_toEndOf="@id/Item_display_compare_price"
+                    android:layout_toEndOf="@id/Item_Owner_display_compare_price"
                     android:inputType="numberDecimal"
                     android:text="2000"
                     android:textColor="@android:color/holo_red_dark" />
 
                 <EditText
-                    android:id="@+id/Item_display_place"
+                    android:id="@+id/Item_Owner_display_place"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -80,43 +79,15 @@
             </RelativeLayout>
 
             <EditText
-                android:id="@+id/Item_display_description"
+                android:id="@+id/Item_Owner_display_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:minLines="3"
                 android:text="Short Description" />
 
-            <AutoCompleteTextView
-                android:id="@+id/Item_display_category"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Item_add_compPrice"
-                android:hint="Category" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <Button
-                    android:id="@+id/add_to_shopping_cart"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:background="#00E676"
-                    android:drawableLeft="@drawable/ic_add_shopping_cart"
-                    android:text="Add to Shopping Cart" />
-
-                <EditText
-                    android:id="@+id/Item_view_amount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_toStartOf="@id/add_to_shopping_cart"
-                    android:hint="Amount"
-                    android:text="1" />
 
 
-            </RelativeLayout>
 
         </LinearLayout>
 

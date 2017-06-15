@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -28,6 +29,8 @@ import com.polygon.R;
 import com.polygon.activity.AddItemActivity;
 import com.polygon.activity.BrowseActivities;
 import com.polygon.activity.OwnerShopActivity;
+import com.polygon.activity.ViewItem;
+import com.polygon.activity.ViewItemOwnerActivity;
 import com.polygon.listeners.Categories;
 import com.polygon.listeners.ItemView;
 import com.squareup.picasso.Callback;
@@ -54,6 +57,9 @@ public class OverViewFragment extends Fragment {
     private TextView shopDesc;
     private ImageView shopImage;
     private DatabaseReference shopDetails;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener authStateListener;
+    private String Ownerid;
 
     public OverViewFragment() {
         // Required empty public constructor
@@ -71,11 +77,21 @@ public class OverViewFragment extends Fragment {
         if (shopCity == null) {
             shopCity = ((OwnerShopActivity) getActivity()).getShopCity();
         }
-            cityshop = shop.child(shopCity);
+        cityshop = shop.child(shopCity);
+        try {
+            userShop = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+        }catch (NullPointerException e){}
 
-        userShop = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
 
+        mAuth = FirebaseAuth.getInstance();
+        authStateListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+            }
+        };
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,7 +106,7 @@ public class OverViewFragment extends Fragment {
         shopItems = (RecyclerView) view.findViewById(R.id.shopItemsRecycler);
         addItemFab = (FloatingActionButton) view.findViewById(R.id.Item_add_fab);
         shopDetails = userShop.child("Shops").child(shopId);
-        Toast.makeText(getApplicationContext(), ""+shopId, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "" + shopId, Toast.LENGTH_SHORT).show();
         shopItemsales = shopDetails.child("Items");
 
 
@@ -120,7 +136,7 @@ public class OverViewFragment extends Fragment {
             public void onClick(View view) {
                 Intent addItem = new Intent(getApplicationContext(), AddItemActivity.class);
                 addItem.putExtra("ShopId", shopId);
-                if (shopCity == null){
+                if (shopCity == null) {
                     shopCity = ((OwnerShopActivity) getActivity()).getShopCity();
                 }
                 addItem.putExtra("ShopCity", shopCity);
@@ -134,6 +150,8 @@ public class OverViewFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
+
+
         FirebaseRecyclerAdapter<ItemView, ItemsViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<com.polygon.listeners.ItemView, ItemsViewHolder>(
                 ItemView.class,
                 R.layout.itemtemplete,
@@ -141,12 +159,35 @@ public class OverViewFragment extends Fragment {
                 shopItemsales
         ) {
             @Override
-            protected void populateViewHolder(ItemsViewHolder viewHolder, ItemView model, int position) {
-                    viewHolder.setImage(model.getImage(), getApplicationContext());
-                    viewHolder.setItemName(model.getName());
-                    viewHolder.setPlace(model.getPlace());
-                    viewHolder.setItemPrice(model.getPrice());
-                    viewHolder.setComparePrice(model.getComparePrice());
+            protected void populateViewHolder(final ItemsViewHolder viewHolder, final ItemView model, int position) {
+                final String itemKey = getRef(position).getKey();
+                Ownerid = model.getOwnerID();
+                viewHolder.setImage(model.getImage(), getApplicationContext());
+                viewHolder.setItemName(model.getName());
+                viewHolder.setPlace(model.getPlace());
+                viewHolder.setItemPrice(model.getPrice());
+                viewHolder.setComparePrice(model.getComparePrice());
+                viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        viewHolder.openItem(model.getOwnerID(), getApplicationContext(), itemKey);
+//                        try {
+//                            if (Ownerid.equals(mAuth.getCurrentUser().getUid())) {
+//                                Intent intent = new Intent(getContext(), ViewItemOwnerActivity.class);
+//                                intent.putExtra("ItemKey", itemKey);
+//                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                getApplicationContext().startActivity(intent);
+//                            } else {
+//                                Intent viewItem = new Intent(getContext(), ViewItem.class);
+//                                viewItem.putExtra("Mode", 1);
+//                                viewItem.putExtra("ItemKey", itemKey);
+//                                viewItem.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                getApplicationContext().startActivity(viewItem);
+//                            }
+//                        }catch (NullPointerException e){}
+
+                    }
+                });
             }
         };
         shopItems.setAdapter(firebaseRecyclerAdapter);
@@ -155,11 +196,21 @@ public class OverViewFragment extends Fragment {
     public static class ItemsViewHolder extends RecyclerView.ViewHolder {
 
         View mView;
+        private FirebaseAuth mAuth;
+        private FirebaseAuth.AuthStateListener authStateListener;
 
         public ItemsViewHolder(View itemView) {
             super(itemView);
 
             mView = itemView;
+            mAuth = FirebaseAuth.getInstance();
+            authStateListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+
+                }
+            };
+            mAuth.addAuthStateListener(authStateListener);
         }
 
         public void setItemName(String categ_name) {
@@ -187,22 +238,40 @@ public class OverViewFragment extends Fragment {
                     });
         }
 
-        public void setItemPrice(String Price){
+        public void setItemPrice(String Price) {
             TextView ItemPrice = (TextView) mView.findViewById(R.id.itemprice);
             ItemPrice.setText(Price);
         }
 
-        public void setComparePrice(String ComPrice){
+        public void setComparePrice(String ComPrice) {
             TextView compprice = (TextView) mView.findViewById(R.id.compareprice);
             compprice.setText(ComPrice);
         }
 
-        public void setPlace (String Place){
+        public void setPlace(String Place) {
             TextView plac = (TextView) mView.findViewById(R.id.item_place);
             plac.setText(Place);
         }
 
+        public void openItem(String Ownerid, Context context, String itemKey) {
+            try {
+                if (Ownerid.equals(mAuth.getCurrentUser().getUid())) {
+                    Toast.makeText(context, "Owner", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ViewItemOwnerActivity.class);
+                    intent.putExtra("ItemKey", itemKey);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplicationContext().startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Owner", Toast.LENGTH_SHORT).show();
+                    Intent viewItem = new Intent(context, ViewItem.class);
+                    viewItem.putExtra("Mode", 1);
+                    viewItem.putExtra("ItemKey", itemKey);
+                    viewItem.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    getApplicationContext().startActivity(viewItem);
+                }
+            }catch (NullPointerException e){}
 
+        }
 
     }
 

@@ -10,6 +10,7 @@ public class ItemView {
     private String Image;
     private String Name;
     private String Price;
+    private String OwnerID;
 
 
 
@@ -72,5 +73,13 @@ public class ItemView {
 
     public void setPrice(String price) {
         Price = price;
+    }
+
+    public String getOwnerID() {
+        return OwnerID;
+    }
+
+    public void setOwnerID(String ownerID) {
+        OwnerID = ownerID;
     }
 }

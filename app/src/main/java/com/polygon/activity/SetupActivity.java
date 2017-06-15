@@ -150,9 +150,9 @@ public class SetupActivity extends AppCompatActivity {
                         emails.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.hasChild(Changed)) {
+                               // if (dataSnapshot.hasChild(Changed)) {
                                     Email.setError("Email already in use by someone else");
-                                }
+                               // }
                             }
 
                             @Override

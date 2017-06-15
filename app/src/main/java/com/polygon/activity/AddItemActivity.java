@@ -191,8 +191,12 @@ public class AddItemActivity extends AppCompatActivity {
         }
         if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
             CropImage.ActivityResult result = CropImage.getActivityResult(data);
-            mImageUri = result.getUri();
-            ItemImage.setImageURI(mImageUri);
+            try {
+                mImageUri = result.getUri();
+                ItemImage.setImageURI(mImageUri);
+            }catch (NullPointerException e){
+                Log.e("Capture","nothing on Image");
+            }
         } else {
             if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
                 CropImage.ActivityResult result = CropImage.getActivityResult(data);
@@ -279,7 +283,10 @@ public class AddItemActivity extends AppCompatActivity {
                     item.child("ShopId").setValue(shop_Id);
                     item.child("Category").setValue(CategoryId);
                     item.child("Owner Contact").setValue(ownerContact);
-                    Toast.makeText(AddItemActivity.this, "Category", Toast.LENGTH_SHORT);
+                    Intent viewItem = new Intent(AddItemActivity.this, ViewItem.class);
+                    viewItem.putExtra("Mode", 1);
+                    viewItem.putExtra("ItemKey", ItemKey);
+                    startActivity(viewItem);
                     finish();
                 }
             });

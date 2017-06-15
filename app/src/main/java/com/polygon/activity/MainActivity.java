@@ -1,5 +1,6 @@
 package com.polygon.activity;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -178,13 +180,20 @@ public class MainActivity extends baseActivity {
                     mCategoryItemsDatabase.child(category).child("Items")
                     ) {
                 @Override
-                protected void populateViewHolder(ItemsViewHolder viewHolder, ItemView model, int position) {
+                protected void populateViewHolder(final ItemsViewHolder viewHolder, final ItemView model, int position) {
                     viewHolder.setImage(model.getImage(), context);
+                    final String itemKey = getRef(position).getKey();
                     viewHolder.setItemName(model.getName());
                     viewHolder.setPlace(model.getPlace());
                     viewHolder.setItemPrice(model.getPrice());
                     viewHolder.setComparePrice(model.getComparePrice());
                     viewHolder.setSavingpercent(model.getPrice(),model.getComparePrice());
+                    viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            viewHolder.openItem(model.getOwnerID(),context, itemKey);
+                        }
+                    });
                 }
             };
 
@@ -247,6 +256,26 @@ public class MainActivity extends baseActivity {
         public void setSavingpercent(String Price, String comPrice) {
             TextView savperc = (TextView) mView.findViewById(R.id.item_per_discount);
             savperc.setVisibility(View.GONE);
+
+        }
+
+        public void openItem(String Ownerid, Context context, String itemKey) {
+            try {
+                if (Ownerid.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    Toast.makeText(context, "Owner", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(context, ViewItemOwnerActivity.class);
+                    intent.putExtra("ItemKey", itemKey);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                } else {
+                    Toast.makeText(context, "Owner", Toast.LENGTH_SHORT).show();
+                    Intent viewItem = new Intent(context, ViewItem.class);
+                    viewItem.putExtra("Mode", 1);
+                    viewItem.putExtra("ItemKey", itemKey);
+                    viewItem.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                     context.startActivity(viewItem);
+                }
+            }catch (NullPointerException e){}
 
         }
     }
